@@ -1,0 +1,288 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="http://mohayonao.github.io/timbre.js/timbre.dev.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <style>
+        Body {
+            background-image: url("background.jpg");
+            font-family: 'Roboto', sans-serif;
+            margin-left: 25%;
+            margin-right: 25%;
+            margin-top: 5%;
+        }
+        
+        .content {
+            padding: 10px 30px 0 30px;
+            background-color: rgba(255, 255, 255, 0.95);
+            min-height: 400px;
+            border-radius: 16px;
+        }
+        
+        img {
+            margin-bottom: 15px;
+        }
+        
+        .explain {
+            color: white;
+            font-size: 11px;
+            margin: 10px 0 0 15px;
+        }
+        
+        .ui-dialog-buttonpane {
+            float: left;
+        }
+        
+        .ui-dialog-titlebar-close {
+            display: none;
+        }
+        
+        .ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
+            border: none
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <h1>Root Position Seventh Chords Ear Training</h1>
+        <h3 id="notice"><em>Turn up your volume</em></h3>
+        <div id="q1">
+            <button id="repeatChord1">Play Chord Again</button>
+            <h2>What Chord Type Just Played?</h2>
+            <input type="radio" name="chord" value="right">Major Seven
+            <br>
+            <input type="radio" name="chord" value="wrong">Minor Seven
+            <br>
+            <input type="radio" name="chord" value="wrong">Dominant Seven
+            <br>
+        </div>
+        <!--Closes q1-->
+
+        <div id="correct1" title="Awesome!" style="display:none;">
+            <p>Exactly, the chord is a major seven chord.</p>
+            <img src="cMaj7.jpg">
+            <br>
+            <button class="next">Next Question</button>
+        </div>
+
+        <div class="fail" title="Failure!" style="display:none;">
+            <p>Try again—Use your ears & brains!</p>
+            <img src="fail.jpg">
+            <br>
+        </div>
+        <!--closes correct-->
+
+        <div id="q2" style="display:none;">
+            <button id="repeatChord2">Play Chord Again</button>
+            <h2>Here's Another!</h2>
+            <input type="radio" name="chord" value="wrong">Major Seven
+            <br>
+            <input type="radio" name="chord" value="right">Minor Seven
+            <br>
+            <input type="radio" name="chord" value="wrong">Dominant Seven
+            <br>
+            <div id="correct2" title="Awesome!" style="display:none;">
+                <p>Exactly, the chord is an E minor seven chord.</p>
+                <img src="emin7.jpg">
+                <br>
+                <button class="next3">Next Question</button>
+            </div>
+            <div class="fail" title="Failure!" style="display:none;">
+                <p>Try again—get it right or pay the price!</p>
+                <img src="fail.jpg">
+                <br>
+            </div>
+        </div>
+        <!--Closes q2-->
+
+        <div id="q3" style="display:none;">
+            <button id="repeatChord3">Play Chord Again</button>
+            <h2>Last one!</h2>
+            <input type="radio" name="chord" value="wrong">Major Seven
+            <br>
+            <input type="radio" name="chord" value="wrong">Minor Seven
+            <br>
+            <input type="radio" name="chord" value="right">Dominant Seven
+            <br>
+            <div id="correct3" title="Awesome!" style="display:none;">
+                <p>Exactly, the chord is a dominant seven chord.</p>
+                <img src="gDom7.jpg">
+                <br>
+                <button class="next4">Ok!</button>
+            </div>
+            <div class="fail" title="Failure!" style="display:none;">
+                <p>Try again—Use your ears & brains!</p>
+                <img src="fail.jpg">
+            </div>
+        </div>
+        <!--Closes q3-->
+
+        <div id="q4" style="display:none;">
+            <h2>You're Done</h2>
+            <div id="output"></div>
+        </div>
+        <!--Closes q3-->
+    </div>
+    <!--closes content-->
+    <div class="explain">This quiz uses JS.timbre to create musical chords client side. JS.timbre isn't supported by all browsers—and works best in Chrome.</div>
+
+
+    <script>
+        //Maj 7 CHORD Test
+
+        var sineC4 = T("sin", {
+            freq: 261.6,
+            mul: 0.5
+        });
+        var sineD4 = T("sin", {
+            freq: 277.2,
+            mul: 0.5
+        });
+        var sineE4 = T("sin", {
+            freq: 329.6,
+            mul: 0.5
+        });
+        var sineF4 = T("sin", {
+            freq: 349.2,
+            mul: 0.5
+        });
+        var sineG4 = T("sin", {
+            freq: 392,
+            mul: 0.5
+        });
+        var sineA4 = T("sin", {
+            freq: 440,
+            mul: 0.5
+        });
+        var sineB4 = T("sin", {
+            freq: 493.9,
+            mul: 0.5
+        });
+        var sineD5 = T("sin", {
+            freq: 587,
+            mul: 0.5
+        });
+        var sineF5 = T("sin", {
+            freq: 698.4,
+            mul: 0.5
+        });
+
+        q = 1; //global var determines question #
+        T("perc", {
+            r: 1000
+        }, sineC4, sineE4, sineG4, sineB4).on("ended", function() {
+            this.pause(5000);
+        }).bang().play();
+        $("#repeatChord1").click(function() {
+            T("perc", {
+                r: 1000
+            }, sineC4, sineE4, sineG4, sineB4).on("ended", function() {
+                this.pause();
+            }).bang().play();
+        });
+
+        jQuery(document).ready(function() {
+            $('input:radio[name="chord"]').change(function() {
+                if ($(this).val() === 'right') {
+                    $(function() {
+                        $("#correct" + q).dialog({
+                            modal: true,
+                            draggable: false,
+                            resizable: false,
+                            position: ['center', 'top'],
+                            show: 'blind',
+                            hide: 'blind',
+                            width: 400,
+                            dialogClass: 'ui-dialog-osx'
+                        });
+                    }); //closes function
+                    q = q + 1;
+                } //closes if
+                else if ($(this).val() === 'wrong') {
+                    $(function() {
+                        $(".fail").dialog({
+                            modal: true,
+                            draggable: false,
+                            resizable: false,
+                            position: ['center'],
+                            show: 'blind',
+                            hide: 'blind',
+                            width: 400,
+                            dialogClass: 'ui-dialog-osx',
+                            buttons: {
+                                "Ok!": function() {
+                                        $(".ui-dialog, .ui-widget-overlay").hide();
+                                        $(this).dialog("close");
+                                    } //closes function      
+                            } //closes buttons    
+                        }); //closes dialog
+                    }); //closes function
+                } //closes else
+            }); // functon for radio
+        }); //closes doc ready
+        //q2 code
+        $(".next").click(function() {
+            $("#q" + q).show('fast', function() {
+                $('#q' + (q - 1)).hide('fast', function() {
+                    $(".ui-dialog, .ui-widget-overlay").hide();
+                    $("#correct" + q).dialog("close");
+                });
+                T("perc", {
+                    r: 1000
+                }, sineE4, sineG4, sineB4, sineD5).on("ended", function() {
+                    this.pause();
+                }).bang().play();
+            });
+        });
+        $("#repeatChord2").click(function() {
+            T("perc", {
+                r: 1000
+            }, sineE4, sineG4, sineB4, sineD5).on("ended", function() {
+                this.pause();
+            }).bang().play();
+            /*$("#repeatChord3").click(function(){
+              T("perc", {r:1000}, sineG4, sineB4, sineD5, sineF4 ).on("ended", function() {
+                  this.pause();
+                }).bang().play();  
+            }); */
+        });
+        //q3 code
+        $(".next3").click(function() {
+            $("#q" + q).show('fast', function() {
+                $('#q' + (q - 1)).hide('fast', function() {
+                    $(".ui-dialog, .ui-widget-overlay").hide();
+                    $("#correct" + q).dialog("close");
+                });
+                T("perc", {
+                    r: 1000
+                }, sineG4, sineB4, sineD5, sineF5).on("ended", function() {
+                    this.pause();
+                }).bang().play();
+            });
+        });
+        $("#repeatChord3").click(function() {
+            T("perc", {
+                r: 1000
+            }, sineG4, sineB4, sineD5, sineF5).on("ended", function() {
+                this.pause();
+            }).bang().play();
+        });
+        //Results code
+        $(".next4").click(function() {
+            $("#q" + q).show('fast', function() {
+                $('#q' + (q - 1)).hide('fast', function() {
+                    $(".ui-dialog, .ui-widget-overlay").hide();
+                    $("#correct" + q).dialog("close");
+                });
+            });
+            $("#notice").hide();
+        }); //closes initial function
+    </script>
+</body>
+
+</html>
